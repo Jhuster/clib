@@ -6,8 +6,8 @@ Linux
 Code List
 ----------
 
+- pipe   封装了Linux系统的无名管道（pipe），可以方便地集成到C语言项目中作为“队列”来使用。
 - syslog 演示如何构建一个“专业”的Log系统，博文：[构建专业的log系统](http://ticktick.blog.51cto.com/823160/1579785)
-
 
 Thanks
 ----------
