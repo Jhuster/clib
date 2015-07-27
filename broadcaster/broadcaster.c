@@ -1,14 +1,3 @@
-/*
- *  COPYRIGHT NOTICE  
- *  Copyright (C) 2015, Jhuster, All Rights Reserved
- *  Author:  Jhuster(lujun.hust@gmail.com)
- *  
- *  https://github.com/Jhuster
- *   
- *  This program is free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; version 2 of the License.  
- */
 #include <stdio.h>
 #include <unistd.h>
 #include <string.h>
@@ -16,17 +5,10 @@
 
 #define LOG(format,...) printf(format,##__VA_ARGS__)
 
-broadcaster_t * broadcaster_create(int workmode, int port) 
+broadcaster_t * broadcaster_create(int port) 
 {
-    if( workmode != BROADCASTER_WORKMODE_SENDER && workmode != BROADCASTER_WORKMODE_RECVER ) {
-        LOG("broadcaster_create param invalid !\n");
-        return NULL;
-    }
-
     broadcaster_t * broadcaster = (broadcaster_t *)malloc(sizeof(broadcaster_t));    
     memset(broadcaster,0,sizeof(broadcaster_t));    
-
-    broadcaster->m_workmode = workmode;
 
     if ((broadcaster->m_socket = socket(AF_INET, SOCK_DGRAM, 0)) == -1) {             
         free(broadcaster);
@@ -92,7 +74,7 @@ void broadcaster_interrupt(broadcaster_t * broadcaster)
 
 int broadcaster_send_packet(broadcaster_t * broadcaster, unsigned char *buffer, int len) 
 {
-    if( broadcaster == NULL || broadcaster->m_socket == -1 || broadcaster->m_workmode != BROADCASTER_WORKMODE_SENDER ) {
+    if( broadcaster == NULL || broadcaster->m_socket == -1 ) {
         return -1;
     }
 
@@ -107,7 +89,7 @@ int broadcaster_send_packet(broadcaster_t * broadcaster, unsigned char *buffer, 
 
 int broadcaster_recv_packet(broadcaster_t * broadcaster, unsigned char *buffer, int len) 
 {
-    if( broadcaster == NULL || broadcaster->m_socket == -1 || broadcaster->m_workmode != BROADCASTER_WORKMODE_RECVER ) {
+    if( broadcaster == NULL || broadcaster->m_socket == -1 ) {
         return -1;
     }
 

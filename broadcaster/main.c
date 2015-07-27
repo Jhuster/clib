@@ -23,7 +23,7 @@ int send_loop(int port)
 {
     char * message = "Hello World!";
 
-    gBroadcaster = broadcaster_create(BROADCASTER_WORKMODE_SENDER,port);
+    gBroadcaster = broadcaster_create(port);
     if(gBroadcaster==NULL) {
         return -1;
     }
@@ -46,7 +46,7 @@ int recv_loop(int port)
 {
     char message[20];
 
-    gBroadcaster = broadcaster_create(BROADCASTER_WORKMODE_RECVER,port);
+    gBroadcaster = broadcaster_create(port);
     if(gBroadcaster==NULL) {
         return -1;
     }
