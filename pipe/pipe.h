@@ -1,17 +1,13 @@
 /*
  *  COPYRIGHT NOTICE  
- *  Copyright (C) 2015, Jhuster <lujun.hust@gmail.com>
+ *  Copyright (C) 2015, Jhuster, All Rights Reserved
+ *  Author:  Jhuster(lujun.hust@gmail.com)
+ *  
  *  https://github.com/Jhuster
  *   
- *  @license under the Apache License, Version 2.0 
- *
- *  @file    pipe.h 
- *  @brief   packing the sys pipe api
- *  
- *  @version 1.0     
- *  @author  Jhuster
- *  @date    2015/03/25  
- * 
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; version 2 of the License.  
  */
 #ifndef _PIPE_H_
 #define _PIPE_H_

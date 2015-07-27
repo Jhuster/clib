@@ -1,19 +1,14 @@
 /*
  *  COPYRIGHT NOTICE  
- *  Copyright (C) 2014, ticktick <lujun.hust@gmail.com>
- *  http://ticktick.blog.51cto.com/
- *   
- *  @license under the Apache License, Version 2.0 
- *
- *  @file    syslog.h 
- *  @brief   define several log macros
+ *  Copyright (C) 2015, Jhuster, All Rights Reserved
+ *  Author:  Jhuster(lujun.hust@gmail.com)
  *  
- *  @version 1.0     
- *  @author  ticktick
- *  @date    2014/11/18  
- * 
+ *  https://github.com/Jhuster
+ *   
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; version 2 of the License.  
  */
-
 #ifndef _SYS_LOG_
 #define _SYS_LOG_
 

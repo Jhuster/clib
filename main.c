@@ -25,7 +25,7 @@ int main(int argc, char *argv[])
     //xyz: 单个选项，例如： -h
     //x:   如果x存在，则必须跟一个参数(带空格)，例如： -p 6000
     //x::  如果x存在，则必须跟一个参数（不带空格），例如： -ieth0
-    while ((c = getopt(argc, argv, "i::p:h?")) != -1) {
+    while ((c = getopt(argc, argv, "i:p:h?")) != -1) {
         switch (c) {
         case 'i':
             strcpy(interface , optarg);  
