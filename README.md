@@ -12,6 +12,7 @@ Code List
 - syslog  演示如何构建一个“专业”的Log系统，相关博文：[构建专业的log系统](http://ticktick.blog.51cto.com/823160/1579785)
 - broadcaster 封装了广播包的创建、发送和接收代码,并给出了测试程序
 - synclock 封装了mutex和condition代码，方便在其他项目中快速集成条件同步功能
+- keylist  实现了一个带有键值(key)的双向链表，可以通过key直接访问某个节点
 
 Thanks
 ----------
