@@ -13,6 +13,7 @@ Code List
 - broadcaster 封装了广播包的创建、发送和接收代码,并给出了测试程序
 - synclock 封装了mutex和condition代码，方便在其他项目中快速集成条件同步功能
 - keylist  实现了一个带有键值(key)的双向链表，可以通过key直接访问某个节点
+- rw_queue 实现了一个基于idx的环形缓冲区队列,常用于“生产者-消费者”应用场景
 
 Thanks
 ----------
