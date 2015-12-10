@@ -3,7 +3,7 @@
  *  Copyright (C) 2015, Jhuster, All Rights Reserved
  *  Author:  Jhuster(lujun.hust@gmail.com)
  *  
- *  https://github.com/Jhuster
+ *  https://github.com/Jhuster/C-Cpp
  *   
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -15,86 +15,68 @@
 #include <stdlib.h>
 
 /**
- *  You can use the void *p point to your own data, \
- *  Or define your own struct to replace the void *p
- *  Notice: if used point like void *p, you need manage the buffer manually
+ *  You can replace the void *p to your own structure
  */
 typedef struct _value {
     void * p;
-}value_t;
+} value_t;
 
 /**
- * You can define your own key type, replace the define and \
- * implement the key_compare(a,b)
+ *  You can redefine the key_t and implement your own `key_compare`
  */
-typedef long lkey_t;
+typedef int key_t;
 
-#define key_compare(a,b) ((a==b)?0:-1)
+#define key_compare(a,b) ((a==b)?1:0)
 
 typedef struct key_list_node { 
-    lkey_t key;
+    key_t key;
     value_t value;
     struct key_list_node *prev;
     struct key_list_node *next;
-}key_list_node_t;
+} key_list_node_t;
 
 typedef struct key_list {
     int count;
     key_list_node_t *header;      
-}key_list_t;
+} key_list_t;
 
 /**
- *  Create the key list
+ *  Create & Destroy the key list
  */
 key_list_t *key_list_create();
+int key_list_destroy(key_list_t *list);
 
 /**
- *  Destroy the key list
- *  The point in value_t must be freed manually
- */
-void key_list_destroy(key_list_t *list);
-
-/**
- *  Get current list elements number
+ *  Get the elements number in the list
  */
 int key_list_count(key_list_t *list);
 
 /**
- *  Get the key value by index
- *  The index must > 0 and < key_list_count
- *  @return -1 error or the key value
+ *  Get all the keys in the list 
+ *  @param list the key_list_t object
+ *  @param array an array to copy the keys into
+ *  @param array_size the array's size
+ *  @return the elements number in the list, -1 if the array_size is not enough
  */
-lkey_t key_list_get_key(key_list_t *list,int index);
+int key_list_keyset(key_list_t *list,key_t* array,int array_size);
 
 /**
  *  Check if the given key is exist 
  *  @return 1 exist, 0 not exist
  */
-int key_list_find_key(key_list_t *list,lkey_t key);
+int key_list_find_key(key_list_t *list,key_t key);
 
 /**
- *  Add a new value to the key list 
- *  If the key exist, the add will fail
+ *  CRUD on the key list
  *  @return 0 success, -1 failed
  */
-int key_list_add(key_list_t *list,lkey_t key,value_t value);
+int key_list_add(key_list_t *list,key_t key,value_t value);
+int key_list_get(key_list_t *list,key_t key,value_t *value);
+int key_list_edit(key_list_t *list,key_t key,value_t value);
+int key_list_delete(key_list_t *list,key_t key);
 
-/**
- *  Get the value with the given key
- *  @return 0 success, -1 failed
- */
-int key_list_get(key_list_t *list,lkey_t key,value_t *value);
-
-/**
- *  Update the value with the given key
- *  @return 0 success, -1 failed
- */
-int key_list_update(key_list_t *list,lkey_t key,value_t value);
-
-/**
- *  Delete the value with the given key
- *  @return 0 success, -1 failed
- */
-int key_list_delete(key_list_t *list,lkey_t key);
+#define key_list_foreach(L,V) key_list_node_t *_node = NULL;\
+    key_list_node_t* V;\
+    for(V = _node = L->header; _node != NULL; V = _node = _node->next)
 
 #endif

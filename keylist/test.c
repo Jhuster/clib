@@ -26,12 +26,22 @@ int main(int argc, char const *argv[])
     LOG("Check key 102 is exist = %d\n",key_list_find_key(list,102));
     LOG("Check key 103 is exist = %d\n",key_list_find_key(list,103));
 
-    int i=0;
-    for( i=0; i<key_list_count(list); i++) {
-        LOG("Get key by index[%d] : %ld \n",i,key_list_get_key(list,i));
+    key_list_foreach(list,node) {
+        LOG("key_list_foreach key = %d, value = %s \n",node->key,(char *)node->value.p);
+    };
+
+    key_t keys[2];
+    if(key_list_keyset(list,keys,2) < 0) {
+        LOG("Failed to get key_list keyset ! \n");
+        return -1;
     }
 
-    if(key_list_update(list,102,v3) == 0) {
+    int i=0;
+    for(i=0; i<key_list_count(list); i++) {
+        LOG("keyset : %d \n",keys[i]);
+    }
+
+    if(key_list_edit(list,102,v3) == 0) {
         LOG("Update 102 success ! \n");        
     }    
 
