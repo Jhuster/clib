@@ -14,17 +14,18 @@
 
 #include <stdlib.h>
 
-/**
- *  You can replace the void *p to your own structure
- */
-typedef struct _value {
-    void * p;
-} value_t;
+#include <stdlib.h>
 
 /**
- *  You can redefine the key_t and implement your own `key_compare`
+ *  You can set the *value point to your own structure
+ *  You must also provide a value_releaser to release the *value
  */
+typedef struct _value {
+    void *value;
+} value_t;
+
 typedef int key_t;
+typedef void (*value_releaser)(value_t value);
 
 #define key_compare(a,b) ((a==b)?1:0)
 
@@ -38,6 +39,7 @@ typedef struct key_list_node {
 typedef struct key_list {
     int count;
     key_list_node_t *header;      
+    value_releaser releaser;
 } key_list_t;
 
 /**

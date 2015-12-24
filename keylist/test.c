@@ -3,23 +3,42 @@
 
 #define LOG(format,...) printf(format,##__VA_ARGS__)
 
+typedef struct _user {
+    char *username;
+} user_t;
+
+static void test_value_releaser(value_t value)
+{
+    user_t* user = (user_t*)value.value;
+    free(user);
+}
+
 int main(int argc, char const *argv[]) 
 {
     LOG("test key_list !\n");
 
-    key_list_t* list = key_list_create();
+    key_list_t* list = key_list_create(test_value_releaser);
     
     value_t v1,v2,v3;
 
-    v1.p = "hello world";
-    v2.p = "jhuster";
-    v3.p = "ticktick";
+    user_t* user1 = (user_t*)malloc(sizeof(user_t));
+    user1->username = "jason";
+
+    user_t* user2 = (user_t*)malloc(sizeof(user_t));
+    user2->username = "jhuster";
+
+    user_t* user3 = (user_t*)malloc(sizeof(user_t));
+    user3->username = "ticktick";
+
+    v1.value = user1;
+    v2.value = user2;
+    v3.value = user3;
 
     key_list_add(list,101,v1);
-    LOG("key_list_add %d, %s\n",101,(char *)v1.p);
+    LOG("key_list_add %d, %s\n",101,((user_t*)v1.value)->username);
 
     key_list_add(list,102,v2);
-    LOG("key_list_add %d, %s\n",102,(char *)v2.p);
+    LOG("key_list_add %d, %s\n",102,((user_t*)v2.value)->username);
 
     LOG("key list size = %d\n",key_list_count(list));
 
@@ -27,7 +46,7 @@ int main(int argc, char const *argv[])
     LOG("Check key 103 is exist = %d\n",key_list_find_key(list,103));
 
     key_list_foreach(list,node) {
-        LOG("key_list_foreach key = %d, value = %s \n",node->key,(char *)node->value.p);
+        LOG("key_list_foreach key = %d, value = %s \n",node->key,((user_t*)node->value.value)->username);
     };
 
     key_t keys[2];
@@ -47,7 +66,7 @@ int main(int argc, char const *argv[])
 
     value_t value;    
     if(key_list_get(list,102,&value) == 0) {
-        LOG("Now the 102 value = %s \n",(char *)value.p);
+        LOG("Now the 102 value = %s \n",((user_t*)value.value)->username);
     }
 
     if(key_list_delete(list,102)==0) {
