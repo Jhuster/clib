@@ -77,7 +77,7 @@ int main(int argc, char *argv[])
     int port = DEFAULT_PORT;
     char workmode[20];
 
-    if( argc < 3 ) {
+    if(argc < 3) {
         usage(argv[0]);
         return 1;
     }
