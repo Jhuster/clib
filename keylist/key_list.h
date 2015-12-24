@@ -14,8 +14,6 @@
 
 #include <stdlib.h>
 
-#include <stdlib.h>
-
 /**
  *  You can set the *value point to your own structure
  *  You must also provide a value_releaser to release the *value
