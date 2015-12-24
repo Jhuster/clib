@@ -18,7 +18,7 @@ Usage
     Pls open 2 shell command window
 
     $ ./multicast.out -s
-    $ ./multicast.out -s
+    $ ./multicast.out -c
 
 Contact
 ----------
