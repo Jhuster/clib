@@ -1,24 +1,24 @@
-multicast
+multicast library
 ----------
 
-a UDP multicast demo in Linux
+an UDP multicast library & demo on Linux Platform
 
 Building
 ----------
 
-    $ gcc -o multicast.out multicast.c    
+    $ gcc -o test.out test.c mc_recver.c mc_sender.c
 
 Usage
 ----------
 
-    $ ./multicast.out [-c as client] [-s as server] [-h help] 
+    $ ./test.out [-c as client] [-s as server] [-h help] 
     example:
-        $ ./multicast.out -s
+        $ ./test.out -s
 
     Pls open 2 shell command window
 
-    $ ./multicast.out -s
-    $ ./multicast.out -c
+    $ ./test.out -s
+    $ ./test.out -c
 
 Contact
 ----------
