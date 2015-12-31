@@ -16,7 +16,7 @@
 
 #define LOG(format,...) printf(format,##__VA_ARGS__)
 
-mc_sender_t *mc_sender_create(char *addr,int port)
+mc_sender_t *mc_sender_create(char *multicast_addr,int multicast_port)
 {
     mc_sender_t *sender = (mc_sender_t *)malloc(sizeof(mc_sender_t));
 
@@ -28,10 +28,10 @@ mc_sender_t *mc_sender_create(char *addr,int port)
     }
 
     /* Initialize the group socket addr */
-    memset((char *)&sender->m_group_addr, 0, sizeof(sender->m_group_addr));
-    sender->m_group_addr.sin_family = AF_INET;
-    sender->m_group_addr.sin_addr.s_addr = inet_addr(addr);
-    sender->m_group_addr.sin_port = htons(port);
+    memset((char *)&sender->m_multicast_addr, 0, sizeof(sender->m_multicast_addr));
+    sender->m_multicast_addr.sin_family = AF_INET;
+    sender->m_multicast_addr.sin_addr.s_addr = inet_addr(multicast_addr);
+    sender->m_multicast_addr.sin_port = htons(multicast_port);
 
     /* Disable loopback so you do not receive your own datagrams */
     char enabled = 1;
@@ -73,5 +73,5 @@ int mc_sender_send(mc_sender_t * sender, unsigned char *buffer, int len)
     if(sender == NULL) {
         return -1;
     }
-    return sendto(sender->m_socket, buffer, len, 0, (struct sockaddr*)&sender->m_group_addr, sizeof(sender->m_group_addr));
+    return sendto(sender->m_socket, buffer, len, 0, (struct sockaddr*)&sender->m_multicast_addr, sizeof(sender->m_multicast_addr));
 }

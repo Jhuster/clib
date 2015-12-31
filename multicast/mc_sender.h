@@ -16,10 +16,10 @@
 
 typedef struct _mc_sender {
     int m_socket;    
-    struct sockaddr_in m_group_addr;
+    struct sockaddr_in m_multicast_addr;
 } mc_sender_t;
 
-mc_sender_t *mc_sender_create(char *addr,int port);
+mc_sender_t *mc_sender_create(char *multicast_addr,int multicast_port);
 void mc_sender_destroy(mc_sender_t * sender);
 int mc_sender_send(mc_sender_t * sender, unsigned char *buffer, int len);
 

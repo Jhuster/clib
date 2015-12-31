@@ -16,7 +16,7 @@
 
 #define LOG(format,...) printf(format,##__VA_ARGS__)
 
-mc_recver_t *mc_recver_create(char *addr,int port)
+mc_recver_t *mc_recver_create(char *multicast_addr,int multicast_port)
 {
     mc_recver_t *recver = (mc_recver_t *)malloc(sizeof(mc_recver_t));
 
@@ -39,7 +39,7 @@ mc_recver_t *mc_recver_create(char *addr,int port)
     struct sockaddr_in m_localaddr;
     memset((char *) &m_localaddr, 0, sizeof(m_localaddr));
     m_localaddr.sin_family = AF_INET;
-    m_localaddr.sin_port = htons(port);
+    m_localaddr.sin_port = htons(multicast_port);
     m_localaddr.sin_addr.s_addr = htonl(INADDR_ANY);  
     if(bind(recver->m_socket, (struct sockaddr*)&m_localaddr, sizeof(m_localaddr)) < 0) {
         LOG("failed to bind datagram socket ! \n");
@@ -52,7 +52,7 @@ mc_recver_t *mc_recver_create(char *addr,int port)
     /* datagrams are to be received. */
     struct ip_mreq group;
     memset((char *)&group, 0, sizeof(group));    
-    group.imr_multiaddr.s_addr = inet_addr(addr);    
+    group.imr_multiaddr.s_addr = inet_addr(multicast_addr);    
     group.imr_interface.s_addr = htonl(INADDR_ANY);  
     if(setsockopt(recver->m_socket, IPPROTO_IP, IP_ADD_MEMBERSHIP, (char *)&group, sizeof(group)) < 0) {
         LOG("failed to adding multicast group !\n ");
