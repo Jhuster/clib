@@ -3,7 +3,7 @@
  *  Copyright (C) 2015, Jhuster, All Rights Reserved
  *  Author:  Jhuster(lujun.hust@gmail.com)
  *  
- *  https://github.com/Jhuster/C-Cpp
+ *  https://github.com/Jhuster/clib
  *   
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
