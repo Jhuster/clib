@@ -12,6 +12,8 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
+#include <sys/socket.h>
 #include "mc_sender.h"
 
 #define LOG(format,...) printf(format,##__VA_ARGS__)
@@ -33,10 +35,10 @@ mc_sender_t *mc_sender_create(char *multicast_addr,int multicast_port)
     sender->m_multicast_addr.sin_addr.s_addr = inet_addr(multicast_addr);
     sender->m_multicast_addr.sin_port = htons(multicast_port);
 
-    /* Disable loopback so you do not receive your own datagrams */
+    /* Enable/Disable loopback so you can/not receive your own datagrams */
     char enabled = 1;
     if(setsockopt(sender->m_socket, IPPROTO_IP, IP_MULTICAST_LOOP, (char *)&enabled, sizeof(enabled)) < 0) {
-        LOG("failed to disabling the loopback !\n");
+        LOG("failed to config the loopback !\n");
         free(sender);
         return NULL;
     }

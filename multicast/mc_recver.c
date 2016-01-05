@@ -12,6 +12,8 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
+#include <sys/socket.h>
 #include "mc_recver.h"
 
 #define LOG(format,...) printf(format,##__VA_ARGS__)
