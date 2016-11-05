@@ -19,7 +19,7 @@ typedef struct _mc_recver {
     struct sockaddr_in m_localaddr;
 } mc_recver_t;
 
-mc_recver_t *mc_recver_create(char *multicast_addr,int multicast_port);
+mc_recver_t *mc_recver_create(char *multicast_addr, int multicast_port);
 void mc_recver_destroy(mc_recver_t * recver);
 int mc_recver_recv(mc_recver_t * recver, unsigned char *buffer, int len);
 

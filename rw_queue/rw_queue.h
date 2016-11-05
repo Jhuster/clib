@@ -29,22 +29,22 @@ typedef struct _rw_queue {
 static rw_queue_t* rw_queue_open(int capacity)
 {
     rw_queue_t *queue = (rw_queue_t*)malloc(sizeof(rw_queue_t));
-    if(queue == NULL) {
+    if (queue == NULL) {
         return NULL;
     }        
     memset(queue, 0, sizeof(rw_queue_t));
 
-    if(pthread_mutex_init(&queue->mutex,NULL) != 0) {
+    if (pthread_mutex_init(&queue->mutex,NULL) != 0) {
         free(queue);
         return NULL;
     }
 
-    if(pthread_cond_init(&queue->rcond,NULL) != 0) {        
+    if (pthread_cond_init(&queue->rcond,NULL) != 0) {        
         free(queue);
         return NULL;
     }
 
-    if(pthread_cond_init(&queue->wcond,NULL) != 0) {        
+    if (pthread_cond_init(&queue->wcond,NULL) != 0) {        
         free(queue);
         return NULL;
     }
@@ -77,8 +77,8 @@ static int rw_queue_get_wp(rw_queue_t *queue,int isblock)
 {
     int idx = -1;
     pthread_mutex_lock(&queue->mutex);
-    while( !queue->interrupt && rw_queue_is_full(queue) ) {
-        if(!isblock) {
+    while (!queue->interrupt && rw_queue_is_full(queue)) {
+        if (!isblock) {
             pthread_mutex_unlock(&queue->mutex);
             return -1;
         }   
@@ -102,8 +102,8 @@ static int rw_queue_get_rp(rw_queue_t *queue,int isblock)
 {
     int idx = 0;
     pthread_mutex_lock(&queue->mutex);
-    while( !queue->interrupt && rw_queue_is_empty(queue) ) {
-        if(!isblock) {
+    while (!queue->interrupt && rw_queue_is_empty(queue)) {
+        if (!isblock) {
             pthread_mutex_unlock(&queue->mutex);
             return -1;
         } 
@@ -125,7 +125,7 @@ static void rw_queue_put_rp(rw_queue_t *queue)
 
 static void rw_queue_interrupt(rw_queue_t *queue)
 {
-    if(queue->interrupt) {
+    if (queue->interrupt) {
         return;
     }
     pthread_mutex_lock(&queue->mutex);

@@ -3,15 +3,15 @@
 #include <sys/time.h>
 #include <signal.h>
 
-#define LOG(format,...) printf(format,##__VA_ARGS__)
+#define LOG(format, ...) printf(format,##__VA_ARGS__)
 
 #define TIME_FORMAT "%Y%m%d%H%M%S"
 
-void get_time_str(char *timestr,int len) 
+void get_time_str(char *timestr, int len) 
 {
     time_t now;
     time(&now);
-    strftime(timestr,len,TIME_FORMAT,localtime(&now));    
+    strftime(timestr, len, TIME_FORMAT, localtime(&now));    
 }
 
 unsigned int get_time_in_ms()
@@ -28,7 +28,7 @@ unsigned int get_time_in_ms()
 typedef union {
     unsigned short value;   // short = 2 bytes
     unsigned char  byte[2]; // char  = 1 bytes
-}ubytes_t;
+} ubytes_t;
 
 int is_big_endian() 
 {
@@ -37,8 +37,7 @@ int is_big_endian()
     //test.value = CONVERT(test.value); //test convert
     if( test.byte[0] == 0x12 && test.byte[1] == 0x34 ) {        
         return 1;
-    }
-    else if( test.byte[0] == 0x34 && test.byte[1] == 0x12 ) {        
+    } else if( test.byte[0] == 0x34 && test.byte[1] == 0x12 ) {        
         return 0;
     }
 
@@ -52,35 +51,33 @@ static void exit_callback(int signum)
     LOG("\nOk,exit program now !\n");
 }
 
-int main(int argc,char *argv[])
+int main(int argc, char *argv[])
 {
     char timestr[20];
     get_time_str(timestr,20);
 
-    LOG("%s\n",timestr);
+    LOG("%s\n", timestr);
 
     int ret = is_big_endian();
-    if(ret==1) {
+    if (ret == 1) {
         LOG("big endian! \n");
-    }
-    else if(ret==0) {
+    } else if(ret == 0) {
         LOG("little endian !\n");
-    }
-    else {
+    } else {
         LOG("unknow error !\n");   
     }
 
     unsigned int start = get_time_in_ms();
-    usleep(50*1000);
+    usleep(50 * 1000);
     unsigned int end = get_time_in_ms();
 
-    LOG("time spend %d ms \n",end-start);
+    LOG("time spend %d ms \n", end-start);
 
-    signal(SIGINT,exit_callback);
+    signal(SIGINT, exit_callback);
     LOG("please enter ctrl + c to exit !\n");
 
-    while(!g_loop_exit) {
-        usleep(1000*1000);
+    while (!g_loop_exit) {
+        usleep(1000 * 1000);
     }
 
     return 0;

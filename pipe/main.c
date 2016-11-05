@@ -7,8 +7,8 @@ typedef struct _user {
     int m_sex;
 }user_t;
 
-void put_user_list(pipe_t *pipe) {
-
+void put_user_list(pipe_t *pipe) 
+{
     user_t user1;
     user1.m_name = "Juster";
     user1.m_age  = 27;
@@ -29,11 +29,11 @@ void put_user_list(pipe_t *pipe) {
     pipe_put(pipe,&user3);
 }
 
-int main( int argc, char *argv[] ) {
-
+int main( int argc, char *argv[]) 
+{
     pipe_t user_pipe;
 
-    if( pipe_open(&user_pipe,sizeof(user_t),PIPE_NO_BLOCKING) != PIPE_SUCCESS ) {
+    if (pipe_open(&user_pipe,sizeof(user_t),PIPE_NO_BLOCKING) != PIPE_SUCCESS) {
         printf("Failed to open pipes !\n");
         return -1;
     }
@@ -43,7 +43,7 @@ int main( int argc, char *argv[] ) {
     put_user_list(&user_pipe);
 
     user_t user;
-    while( pipe_get(&user_pipe,&user) != PIPE_FAILURE ) {
+    while (pipe_get(&user_pipe,&user) != PIPE_FAILURE) {
         printf("user %s, age=%d,sex=%d !\n",user.m_name,user.m_age,user.m_sex);
     }
 

@@ -20,22 +20,22 @@ typedef struct _thread {
     int m_is_started;
     int m_is_interrupted;
     pthread_t m_thread;
-}thread_t;
+} thread_t;
 
 typedef long THREAD;
 
 static THREAD thread_create()
 {
-    thread_t * thread = (thread_t *)malloc(sizeof(thread_t));
+    thread_t * thread = (thread_t *) malloc(sizeof(thread_t));
     thread->m_is_interrupted = 0;
     thread->m_is_started = 0;
-    return (THREAD)thread;
+    return (THREAD) thread;
 }
 
 static void thread_destroy(THREAD handle)
 {
     thread_t * thread = (thread_t *)handle;
-    if(thread==NULL) {
+    if (thread==NULL) {
         return;
     }
     free(thread);

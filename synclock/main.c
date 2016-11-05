@@ -6,19 +6,19 @@ static volatile int g_system_exit = 0;
 
 typedef struct _queue {    
     int number;
-}queue_t;
+} queue_t;
 
 typedef struct _syncQueue {
     queue_t queue;
     synclock_t *lock;
-}sync_queue_t;
+} sync_queue_t;
 
-static void * reading_thread(void * arg) {
-
+static void * reading_thread(void * arg) 
+{
     sync_queue_t *squeue = (sync_queue_t *)arg;
 
-    while(!g_system_exit) {       
-        if( squeue->queue.number == 0 ) {
+    while (!g_system_exit) {       
+        if (squeue->queue.number == 0) {
             synclock_wait(squeue->lock);            
         }
         printf("number: %d \n",squeue->queue.number);
@@ -28,11 +28,11 @@ static void * reading_thread(void * arg) {
     return (void *)0;
 }
 
-static void * writing_thread(void * arg) {
-
+static void * writing_thread(void * arg) 
+{
     sync_queue_t *squeue = (sync_queue_t *)arg;
 
-    while(!g_system_exit) {    
+    while (!g_system_exit) {    
         sleep(1);   
         squeue->queue.number++;            
         synclock_notify(squeue->lock);
@@ -48,11 +48,11 @@ int main(int argc, char *argv[]) {
     squeue.queue.number = 0;
 
     pthread_t rthread,wthread;
-    if( pthread_create(&rthread,NULL,reading_thread,&squeue) != 0 ) {
+    if (pthread_create(&rthread,NULL,reading_thread,&squeue) != 0) {
         printf("pthread create reading thread failed ! \n");
         return -1;
     }
-    if( pthread_create(&wthread,NULL,writing_thread,&squeue) != 0 ) {
+    if (pthread_create(&wthread,NULL,writing_thread,&squeue) != 0) {
         printf("pthread create writing thread failed ! \n");
         return -1;
     }
@@ -60,7 +60,7 @@ int main(int argc, char *argv[]) {
     char command;
     do {
         command = getchar();
-    }while(command!='q');
+    } while (command!='q');
 
     g_system_exit = 1;
 

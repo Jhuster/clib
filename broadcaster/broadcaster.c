@@ -14,40 +14,40 @@
 #include <string.h>
 #include "broadcaster.h"
 
-#define LOG(format,...) printf(format,##__VA_ARGS__)
+#define LOG(format,...) printf(format, ##__VA_ARGS__)
 
 broadcaster_t * broadcaster_create(int port) 
 {
     broadcaster_t * broadcaster = (broadcaster_t *)malloc(sizeof(broadcaster_t));    
-    memset(broadcaster,0,sizeof(broadcaster_t));    
+    memset(broadcaster, 0, sizeof(broadcaster_t));    
 
-    if((broadcaster->m_socket = socket(AF_INET, SOCK_DGRAM, 0)) == -1) {             
+    if ((broadcaster->m_socket = socket(AF_INET, SOCK_DGRAM, 0)) == -1) {             
         free(broadcaster);
         LOG("broadcaster_create create socket failed !\n");
         return NULL;  
     }  
 
     int opt = 1;      
-    int ret = setsockopt(broadcaster->m_socket, SOL_SOCKET, SO_BROADCAST, (char *)&opt, sizeof(opt));  
-    if(ret < 0) {    
+    int ret = setsockopt(broadcaster->m_socket, SOL_SOCKET, SO_BROADCAST, (char *) &opt, sizeof(opt));  
+    if (ret < 0) {    
         free(broadcaster);
         LOG("broadcaster_create setsockopt SO_BROADCAST failed !\n");
         return NULL;  
     }  
 
-    ret = setsockopt(broadcaster->m_socket, SOL_SOCKET, SO_REUSEADDR, (char *)&opt, sizeof(opt)); 
-    if(ret < 0) {    
+    ret = setsockopt(broadcaster->m_socket, SOL_SOCKET, SO_REUSEADDR, (char *) &opt, sizeof(opt)); 
+    if (ret < 0) {    
         free(broadcaster);
         LOG("broadcaster_create setsockopt SO_REUSEADDR failed !\n");
         return NULL;  
     }      
 
     bzero(&broadcaster->m_addr, sizeof(struct sockaddr_in));  
-    broadcaster->m_addr.sin_family=AF_INET;  
-    broadcaster->m_addr.sin_addr.s_addr=htonl(INADDR_BROADCAST);  
-    broadcaster->m_addr.sin_port=htons(port);   
+    broadcaster->m_addr.sin_family = AF_INET;  
+    broadcaster->m_addr.sin_addr.s_addr = htonl(INADDR_BROADCAST);  
+    broadcaster->m_addr.sin_port = htons(port);   
 
-    if(bind(broadcaster->m_socket,(struct sockaddr *)&(broadcaster->m_addr), sizeof(struct sockaddr_in)) == -1) {     
+    if (bind(broadcaster->m_socket, (struct sockaddr *) &(broadcaster->m_addr), sizeof(struct sockaddr_in)) == -1) {     
         free(broadcaster);
         LOG("broadcaster_create bind sockopt failed !\n");
         return NULL;    
@@ -60,11 +60,11 @@ broadcaster_t * broadcaster_create(int port)
 
 void broadcaster_destroy(broadcaster_t * broadcaster) 
 {
-    if(broadcaster == NULL || broadcaster->m_socket == -1) {
+    if (broadcaster == NULL || broadcaster->m_socket == -1) {
         return;
     }
 
-    shutdown(broadcaster->m_socket,SHUT_RDWR); 
+    shutdown(broadcaster->m_socket, SHUT_RDWR); 
     close(broadcaster->m_socket);
     broadcaster->m_socket = -1;
     free(broadcaster);
@@ -74,24 +74,24 @@ void broadcaster_destroy(broadcaster_t * broadcaster)
 
 void broadcaster_interrupt(broadcaster_t * broadcaster)
 {
-    if(broadcaster == NULL || broadcaster->m_socket == -1) {
+    if (broadcaster == NULL || broadcaster->m_socket == -1) {
         return;
     }
 
-    shutdown(broadcaster->m_socket,SHUT_RDWR); 
+    shutdown(broadcaster->m_socket, SHUT_RDWR); 
 
     LOG("broadcast_session broadcaster_interrupt !\n");
 }
 
 int broadcaster_send_packet(broadcaster_t * broadcaster, unsigned char *buffer, int len) 
 {
-    if(broadcaster == NULL || broadcaster->m_socket == -1) {
+    if (broadcaster == NULL || broadcaster->m_socket == -1) {
         return -1;
     }
 
     int ret = sendto(broadcaster->m_socket, buffer, len, 0, (struct sockaddr*)&broadcaster->m_addr, sizeof(broadcaster->m_addr));  
-    if(ret < 0) {
-        LOG("broadcast_send_packet failed,error=%d\n",ret);
+    if (ret < 0) {
+        LOG("broadcast_send_packet failed,error=%d\n", ret);
         return -1;  
     }
 
@@ -100,14 +100,14 @@ int broadcaster_send_packet(broadcaster_t * broadcaster, unsigned char *buffer, 
 
 int broadcaster_recv_packet(broadcaster_t * broadcaster, unsigned char *buffer, int len) 
 {
-    if(broadcaster == NULL || broadcaster->m_socket == -1) {
+    if (broadcaster == NULL || broadcaster->m_socket == -1) {
         return -1;
     }
 
     int nbytes;
-    int ret = recvfrom(broadcaster->m_socket, buffer, len, 0, (struct sockaddr*)&broadcaster->m_addr,(socklen_t*)&nbytes);  
-    if(ret < 0) {
-        LOG("broadcast_recv_packet failed,error=%d\n",ret);
+    int ret = recvfrom(broadcaster->m_socket, buffer, len, 0, (struct sockaddr*)&broadcaster->m_addr,(socklen_t*) &nbytes);  
+    if (ret < 0) {
+        LOG("broadcast_recv_packet failed, error=%d\n", ret);
         return -1;
     }
 

@@ -19,7 +19,7 @@
 typedef struct _broadcaster {
     int m_socket;    
     struct sockaddr_in m_addr;
-}broadcaster_t;
+} broadcaster_t;
 
 broadcaster_t * broadcaster_create(int port);
 void broadcaster_destroy(broadcaster_t * broadcaster);

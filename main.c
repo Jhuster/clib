@@ -2,11 +2,11 @@
 #include <unistd.h>
 #include <string.h>
 
-#define LOG(format,...) printf(format,##__VA_ARGS__)
+#define LOG(format, ...) printf(format,##__VA_ARGS__)
 
 void usage(char *program) 
 {
-    LOG("Usage:\n%s [-i interface [null/eth0/eth1...]] [-p listenport] [-h help] \n",program);
+    LOG("Usage:\n%s [-i interface [null/eth0/eth1...]] [-p listenport] [-h help] \n", program);
     LOG("example:\n");
     LOG("\t%s -i eth0 -p 6000 \n",program);
 }
@@ -33,7 +33,7 @@ int main(int argc, char *argv[])
             break;
         case 'p':
             listen_port = atoi(optarg);
-            LOG("listen_port %d \n",listen_port); 
+            LOG("listen_port %d \n", listen_port); 
             break;
         case 'h':
         case '?':

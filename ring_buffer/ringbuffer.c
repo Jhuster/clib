@@ -21,16 +21,16 @@
 
 ring_buffer_t* ring_buffer_init(int capacity)
 {
-    if(!is_power_of_2(capacity)) {
+    if (!is_power_of_2(capacity)) {
         return NULL;
     }
 
-    ring_buffer_t *rbuffer = (ring_buffer_t *)malloc(sizeof(ring_buffer_t));
-    if(!rbuffer) {
+    ring_buffer_t *rbuffer = (ring_buffer_t *) malloc(sizeof(ring_buffer_t));
+    if (!rbuffer) {
         return rbuffer;
     }
 
-    rbuffer->buffer = (unsigned char *)malloc(capacity*sizeof(char));
+    rbuffer->buffer = (unsigned char *) malloc(capacity*sizeof(char));
     rbuffer->size = capacity;
     rbuffer->in  = 0;
     rbuffer->out = 0;
@@ -41,11 +41,11 @@ ring_buffer_t* ring_buffer_init(int capacity)
 
 void ring_buffer_free(ring_buffer_t *rbuffer)
 {
-    if(rbuffer == NULL) {
+    if (rbuffer == NULL) {
         return;
     }
 
-    if(rbuffer->buffer) {
+    if (rbuffer->buffer) {
         free(rbuffer->buffer);
         rbuffer->buffer = NULL;
     }
@@ -89,7 +89,7 @@ int ring_buffer_get(ring_buffer_t *rbuffer, void *buffer, int size)
     memcpy(buffer + len, rbuffer->buffer, size - len);
     rbuffer->out += size;
 
-    if(rbuffer->in == rbuffer->out)
+    if (rbuffer->in == rbuffer->out)
         rbuffer->in = rbuffer->out = 0;
 
     pthread_mutex_unlock(&rbuffer->lock);
